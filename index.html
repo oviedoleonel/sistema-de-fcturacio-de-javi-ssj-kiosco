@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosco ssj</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #10180f; /* Fondo principal oscuro (casi negro) */
+            background: linear-gradient(135deg, #10180f, #283a2a, #1a2a1b);
+            color: #e2e8f0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background-color: rgba(16, 24, 15, 0.4); /* Fondo semi-transparente verde oscuro */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 231, 106, 0.2); /* Borde de verde claro semi-transparente */
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-card:hover {
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .nav-item {
+            position: relative;
+            z-index: 10;
+        }
+        .nav-item:hover {
+            color: #a3e635; /* Verde lima vibrante al pasar el mouse */
+        }
+        .nav-item-active {
+            color: #fff;
+            background-color: #4ade80; /* Verde brillante para el botón activo */
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+            font-weight: bold;
+        }
+        .nav-item-active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.5rem;
+            background-color: rgba(74, 222, 128, 0.5);
+            z-index: -1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .nav-item-active:hover::before {
+            opacity: 1;
+        }
+        .neon-button {
+            box-shadow: 0 0 5px #a3e635, 0 0 10px #a3e635, 0 0 15px #a3e635;
+            transition: all 0.3s ease-in-out;
+        }
+        .neon-button:hover {
+            box-shadow: 0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #4ade80;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4ade80 #2d3748;
+        }
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background-color: #4ade80;
+            border-radius: 20px;
+            border: 2px solid #2d3748;
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+    /* Estilos adicionales para que el texto de los filtros sea visible */
+    #productSearch,
+    #categoryFilter {
+        color: #e2e8f0; /* Color de texto claro para visibilidad */
+    }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="flex h-screen bg-transparent">
+        <!-- Sidebar para desktop -->
+        <aside class="hidden md:flex flex-col w-64 glass-card m-2">
+            <div class="flex items-center justify-center h-20 border-b border-emerald-500/30">
+                <!-- Logo -->
+                <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-12 w-12 rounded-full mr-2">
+                <span class="ml-2 text-xl font-bold">Kiosco ssj</span>
+            </div>
+            <nav class="flex-1 px-2 py-4 space-y-2">
+                <a href="#dashboard" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200 nav-item-active">Dashboard</a>
+                <a href="#products" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200">Productos</a>
+                <a href="#sales" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200">Ventas</a>
+                <a href="#reports" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200">Reportes</a>
+                <a href="#balance" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200">Balance</a>
+                <a href="#history" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200">Historial</a>
+            </nav>
+            <div class="p-4 border-t border-emerald-500/30">
+                <button id="resetDailySalesBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg neon-button">
+                    Reiniciar Ventas del Día
+                </button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="flex-1 main-content p-4 md:p-6">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Dashboard</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="glass-card p-6 flex flex-col justify-between">
+                        <h3 class="text-lg font-semibold text-gray-400">Ventas Hoy</h3>
+                        <p id="salesToday" class="text-4xl font-bold text-emerald-400">$0.00</p>
+                    </div>
+                    <div class="glass-card p-6 flex flex-col justify-between">
+                        <h3 class="text-lg font-semibold text-gray-400">Ganancia Hoy</h3>
+                        <p id="profitToday" class="text-4xl font-bold text-green-400">$0.00</p>
+                    </div>
+                    <div class="glass-card p-6 flex flex-col justify-between">
+                        <h3 class="text-lg font-semibold text-gray-400">Ganancia Semana</h3>
+                        <p id="profitWeek" class="text-4xl font-bold text-green-400">$0.00</p>
+                    </div>
+                    <div class="glass-card p-6 flex flex-col justify-between">
+                        <h3 class="text-lg font-semibold text-gray-400">Ganancia Mes</h3>
+                        <p id="profitMonth" class="text-4xl font-bold text-green-400">$0.00</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-card p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-emerald-300">Ganancias de la Semana</h2>
+                        <div class="chart-container">
+                            <canvas id="weeklyProfitChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-emerald-300">Stock Crítico (<5 unidades)</h2>
+                        <div id="criticalStock" class="space-y-2 max-h-80 overflow-y-auto">
+                            <p class="text-gray-400">No hay productos con stock crítico.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="content-section hidden">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Gestión de Productos</h1>
+                <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
+                    <div class="flex gap-4">
+                        <input type="text" id="productSearch" placeholder="Buscar producto..." class="bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        <select id="categoryFilter" class="bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <option value="">Todas las categorías</option>
+                        </select>
+                    </div>
+                    <button id="addProductBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg neon-button">Agregar Producto</button>
+                </div>
+                <div class="glass-card overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="border-b border-emerald-500/30">
+                            <tr>
+                                <th class="p-4">Nombre</th>
+                                <th class="p-4">Categoría</th>
+                                <th class="p-4">Stock</th>
+                                <th class="p-4">Costo</th>
+                                <th class="p-4">Precio Venta</th>
+                                <th class="p-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sales Section -->
+            <section id="sales" class="content-section hidden">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Registrar Venta</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Columna de productos disponibles -->
+                    <div class="glass-card p-6">
+                        <h2 class="text-xl font-bold mb-4">Productos Disponibles</h2>
+                        <input type="text" id="saleProductSearch" placeholder="Buscar producto..." class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 mb-4 focus:ring-emerald-500 focus:border-emerald-500">
+                        <div class="overflow-x-auto h-80">
+                            <table class="w-full text-left">
+                                <thead class="border-b border-emerald-500/30 sticky top-0 bg-[#171141] bg-opacity-90 backdrop-blur-sm">
+                                    <tr>
+                                        <th class="p-4">Producto</th>
+                                        <th class="p-4 text-center">Stock</th>
+                                        <th class="p-4 text-center">Precio</th>
+                                        <th class="p-4 text-center">Agregar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="availableProductsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna de venta en curso -->
+                    <div class="glass-card p-6">
+                        <h2 class="text-xl font-bold mb-4">Venta en Curso</h2>
+                        <form id="saleForm" class="space-y-4">
+                            <div class="overflow-x-auto h-64">
+                                <table class="w-full text-left">
+                                    <thead class="border-b border-emerald-500/30">
+                                        <tr>
+                                            <th class="p-4">Producto</th>
+                                            <th class="p-4 text-center">Cant.</th>
+                                            <th class="p-4 text-center">Precio</th>
+                                            <th class="p-4 text-right">Subtotal</th>
+                                            <th class="p-4"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="currentSaleTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="border-t border-emerald-500/30 pt-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-semibold">Total:</h3>
+                                    <p id="saleTotal" class="text-3xl font-bold text-green-400">$0.00</p>
+                                </div>
+                                <div>
+                                    <label for="salePaymentMethod" class="block mb-2 text-sm font-medium text-gray-300">Método de Pago</label>
+                                    <select id="salePaymentMethod" required class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                        <option>Efectivo</option>
+                                        <option>Tarjeta</option>
+                                        <option>Transferencia</option>
+                                    </select>
+                                </div>
+                                <div class="mt-6">
+                                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg neon-button">Confirmar Venta</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section hidden">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Reportes y Balances</h1>
+                <div class="flex justify-end mb-4">
+                    <button id="exportCsvBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg neon-button">Exportar CSV</button>
+                </div>
+                <div class="glass-card overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="border-b border-emerald-500/30">
+                            <tr>
+                                <th class="p-4">Producto</th>
+                                <th class="p-4">Unidades Vendidas</th>
+                                <th class="p-4">Ventas Totales</th>
+                                <th class="p-4">Ganancia Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Balance Section -->
+            <section id="balance" class="content-section hidden">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Balance de la Planta</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="glass-card p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-emerald-300">Stock por Categoría</h2>
+                        <div id="categoryBalance" class="space-y-4">
+                        </div>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-emerald-300">Distribución de Stock</h2>
+                        <div class="chart-container mx-auto" style="max-width: 400px;">
+                            <canvas id="categoryStockChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history" class="content-section hidden">
+                <h1 class="text-3xl font-bold mb-6 text-emerald-300">Historial de Ventas</h1>
+                <div class="glass-card p-6 overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="border-b border-emerald-500/30">
+                            <tr>
+                                <th class="p-4">ID</th>
+                                <th class="p-4">Fecha y Hora</th>
+                                <th class="p-4">Total</th>
+                                <th class="p-4">Ganancia</th>
+                                <th class="p-4">Método de Pago</th>
+                                <th class="p-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Navegación para móvil -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-card flex justify-around p-2 border-t border-emerald-500/30">
+        <a href="#dashboard" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6 nav-item-active">Dashboard</a>
+        <a href="#products" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Productos</a>
+        <a href="#sales" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Ventas</a>
+        <a href="#reports" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Reportes</a>
+        <a href="#balance" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Balance</a>
+        <a href="#history" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Historial</a>
+    </nav>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
+        <div class="glass-card p-8 rounded-lg shadow-2xl w-full max-w-md m-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modalTitle" class="text-2xl font-bold text-emerald-300">Agregar Producto</h2>
+                <button type="button" id="exitProductAdminBtn" class="hidden text-red-400 hover:text-red-600 font-bold py-2 px-4 rounded-lg neon-button">Salir</button>
+            </div>
+            <form id="productForm" class="space-y-4">
+                <input type="hidden" id="productId">
+                <div>
+                    <label for="productName" class="block text-sm font-medium text-gray-300">Nombre</label>
+                    <input type="text" id="productName" required class="mt-1 w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                </div>
+                <div>
+                    <label for="productCategory" class="block text-sm font-medium text-gray-300">Categoría</label>
+                    <input type="text" id="productCategory" required class="mt-1 w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="productStock" class="block text-sm font-medium text-gray-300">Stock</label>
+                        <input type="number" id="productStock" required min="0" class="mt-1 w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label for="productCost" class="block text-sm font-medium text-gray-300">Costo Unitario</label>
+                        <input type="number" id="productCost" required min="0" step="0.01" class="mt-1 w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    </div>
+                </div>
+                <div>
+                    <label for="productPrice" class="block text-sm font-medium text-gray-300">Precio Venta</label>
+                    <input type="number" id="productPrice" required min="0" step="0.01" class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                </div>
+                <div>
+                    <label for="productImage" class="block text-sm font-medium text-gray-300">URL de Imagen (Opcional)</label>
+                    <input type="text" id="productImage" class="mt-1 w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                </div>
+                <div class="flex justify-end gap-4 pt-4">
+                    <button type="button" id="cancelProductBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg neon-button">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
+        <div class="glass-card p-8 rounded-lg shadow-2xl w-full max-w-md m-4 text-center">
+            <!-- Logo en el modal de admin -->
+            <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-16 w-16 mx-auto mb-4 rounded-full">
+            <h2 class="text-2xl font-bold mb-4 text-emerald-300">Confirmación de Administrador</h2>
+            <p class="text-gray-400 mb-6">Ingresa la contraseña para confirmar la acción.</p>
+            <form id="adminForm" class="space-y-4">
+                <input type="password" id="adminPasswordInput" placeholder="Contraseña de Administrador" required class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
+                <div class="flex justify-end gap-4 pt-4">
+                    <button type="button" id="cancelAdminBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg neon-button">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg transform translate-x-[120%]" style="transition: transform 0.5s ease-in-out; z-index: 1000;">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script>
+        // Funciones de utilidad 
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        function formatCurrency(amount) {
+            return `$${parseFloat(amount).toFixed(2)}`;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = $('toast');
+            const toastMessage = $('toastMessage');
+            toastMessage.textContent = message;
+            toast.className = `fixed top-5 right-5 py-2 px-4 rounded-lg shadow-lg transform transition-transform duration-500 ease-in-out ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} translate-x-0`;
+            setTimeout(() => {
+                toast.classList.add('translate-x-[120%]');
+            }, 3000);
+        }
+
+        // Variable para almacenar el callback de la acción administrativa
+        let adminActionCallback = null;
+        let isAdminSessionActive = false; // Nueva variable de estado para la sesión de admin
+
+        // Modal de administrador
+        const adminModal = $('adminModal');
+        const adminPasswordInput = $('adminPasswordInput');
+        const adminForm = $('adminForm');
+        const adminPassword = 'losmarmotas123'; // La contraseña por defecto
+        
+        // Función para mostrar el modal de contraseña y ejecutar una acción si es correcta
+        function promptForPassword(callback) {
+            adminActionCallback = callback;
+            adminPasswordInput.value = '';
+            adminModal.classList.remove('hidden');
+            adminModal.classList.add('flex');
+        }
+
+        // Evento de confirmación en el modal de admin
+        adminForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (adminPasswordInput.value === adminPassword) {
+                adminModal.classList.remove('flex');
+                adminModal.classList.add('hidden');
+                if (adminActionCallback) {
+                    adminActionCallback();
+                    adminActionCallback = null;
+                }
+            } else {
+                showToast('Contraseña incorrecta.', 'error');
+            }
+        });
+
+        $('cancelAdminBtn').addEventListener('click', () => {
+            adminModal.classList.remove('flex');
+            adminModal.classList.add('hidden');
+            adminActionCallback = null;
+        });
+
+        // Almacenamiento y gestión de datos en localStorage
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        let salesHistory = JSON.parse(localStorage.getItem('salesHistory')) || [];
+        let currentSale = JSON.parse(localStorage.getItem('currentSale')) || [];
+
+        function saveData() {
+            localStorage.setItem('products', JSON.stringify(products));
+            localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
+            localStorage.setItem('currentSale', JSON.stringify(currentSale));
+        }
+
+        // Lógica de navegación
+        const navLinks = document.querySelectorAll('.nav-item');
+        const contentSections = document.querySelectorAll('.content-section');
+
+        function switchSection(sectionId) {
+            contentSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('nav-item-active');
+            });
+
+            const activeSection = document.querySelector(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+            }
+            const activeLink = document.querySelector(`a[href="${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('nav-item-active');
+            }
+        }
+
+        // Navegación con hash
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash || '#dashboard';
+            switchSection(hash);
+            renderAll();
+        });
+
+        // Inicializar al cargar la página
+        window.onload = () => {
+            const hash = window.location.hash || '#dashboard';
+            switchSection(hash);
+            renderAll();
+        };
+
+        // Renderizado de las secciones
+        function renderAll() {
+            renderDashboard();
+            renderProductsTable();
+            renderAvailableProductsTable();
+            renderCurrentSale();
+            renderReportsTable();
+            renderBalanceCharts();
+            renderHistoryTable();
+            populateCategoryFilter();
+        }
+
+        // Dashboard
+        let weeklyProfitChart = null;
+        let categoryStockChart = null;
+
+        function renderDashboard() {
+            // Cálculos de KPIs
+            const today = new Date().toDateString();
+            const salesToday = salesHistory.filter(sale => new Date(sale.date).toDateString() === today);
+            const totalSalesToday = salesToday.reduce((sum, sale) => sum + sale.total, 0);
+            const totalProfitToday = salesToday.reduce((sum, sale) => sum + sale.profit, 0);
+
+            const last7Days = Array.from({ length: 7 }, (_, i) => {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                return d.toDateString();
+            }).reverse();
+
+            const weeklyProfits = last7Days.map(day => {
+                const dailySales = salesHistory.filter(sale => new Date(sale.date).toDateString() === day);
+                return dailySales.reduce((sum, sale) => sum + sale.profit, 0);
+            });
+
+            const totalProfitWeek = weeklyProfits.reduce((sum, profit) => sum + profit, 0);
+            const totalProfitMonth = salesHistory.filter(sale => {
+                const saleDate = new Date(sale.date);
+                const now = new Date();
+                return saleDate.getMonth() === now.getMonth() && saleDate.getFullYear() === now.getFullYear();
+            }).reduce((sum, sale) => sum + sale.profit, 0);
+
+            // Actualizar el DOM
+            $('salesToday').textContent = formatCurrency(totalSalesToday);
+            $('profitToday').textContent = formatCurrency(totalProfitToday);
+            $('profitWeek').textContent = formatCurrency(totalProfitWeek);
+            $('profitMonth').textContent = formatCurrency(totalProfitMonth);
+
+            // Gráfico de ganancias semanales
+            if (weeklyProfitChart) {
+                weeklyProfitChart.destroy();
+            }
+            const ctx = $('weeklyProfitChart').getContext('2d');
+            weeklyProfitChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: last7Days.map(day => day.split(' ')[0]),
+                    datasets: [{
+                        label: 'Ganancia Semanal',
+                        data: weeklyProfits,
+                        backgroundColor: '#9333ea',
+                        borderColor: '#c084fc',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                            },
+                            ticks: {
+                                color: '#e2e8f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                color: '#e2e8f0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e2e8f0'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Stock crítico
+            const criticalStockList = $('criticalStock');
+            criticalStockList.innerHTML = '';
+            const criticalProducts = products.filter(p => p.stock < 5);
+            if (criticalProducts.length === 0) {
+                criticalStockList.innerHTML = '<p class="text-gray-400">No hay productos con stock crítico.</p>';
+            } else {
+                criticalProducts.forEach(product => {
+                    const div = document.createElement('div');
+                    div.className = 'glass-card p-4 flex justify-between items-center';
+                    div.innerHTML = `
+                        <span>${product.name}</span>
+                        <span class="text-red-500 font-bold">${product.stock} unidades</span>
+                    `;
+                    criticalStockList.appendChild(div);
+                });
+            }
+        }
+
+        // Products Section
+        const productModal = $('productModal');
+        const addProductBtn = $('addProductBtn');
+        const exitProductAdminBtn = $('exitProductAdminBtn');
+        const productForm = $('productForm');
+        const productName = $('productName');
+        const productCategory = $('productCategory');
+        const productStock = $('productStock');
+        const productCost = $('productCost');
+        const productPrice = $('productPrice');
+        const productId = $('productId');
+        const modalTitle = $('modalTitle');
+        let currentProductToDeleteId = null;
+
+        function openProductModal(product = null) {
+            if (product) {
+                modalTitle.textContent = 'Editar Producto';
+                productId.value = product.id;
+                productName.value = product.name;
+                productCategory.value = product.category;
+                productStock.value = product.stock;
+                productCost.value = product.cost;
+                productPrice.value = product.price;
+            } else {
+                modalTitle.textContent = 'Agregar Producto';
+                productForm.reset();
+                productId.value = '';
+            }
+            productModal.classList.remove('hidden');
+            productModal.classList.add('flex');
+            exitProductAdminBtn.classList.remove('hidden'); // Mostrar el botón Salir
+        }
+
+        function closeProductModal() {
+            productModal.classList.remove('flex');
+            productModal.classList.add('hidden');
+        }
+
+        function renderProductsTable(filteredProducts = products) {
+            const tableBody = $('productsTableBody');
+            tableBody.innerHTML = '';
+            filteredProducts.forEach(product => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                row.innerHTML = `
+                    <td class="p-4 font-semibold">${product.name}</td>
+                    <td class="p-4">${product.category}</td>
+                    <td class="p-4 text-center">${product.stock}</td>
+                    <td class="p-4">${formatCurrency(product.cost)}</td>
+                    <td class="p-4">${formatCurrency(product.price)}</td>
+                    <td class="p-4">
+                        <div class="flex gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded-lg neon-button edit-product-btn" data-id="${product.id}">Editar</button>
+                            <button class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded-lg neon-button delete-product-btn" data-id="${product.id}">Eliminar</button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Manejador del botón "Agregar Producto"
+        addProductBtn.addEventListener('click', () => {
+            if (isAdminSessionActive) {
+                openProductModal();
+            } else {
+                promptForPassword(() => {
+                    isAdminSessionActive = true;
+                    openProductModal();
+                });
+            }
+        });
+
+        // Manejador del botón "Salir" del modal de productos
+        exitProductAdminBtn.addEventListener('click', () => {
+            isAdminSessionActive = false;
+            closeProductModal();
+            exitProductAdminBtn.classList.add('hidden'); // Ocultar el botón Salir
+            showToast('Sesión de administración cerrada.');
+        });
+        
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = productId.value;
+            const newProduct = {
+                name: productName.value,
+                category: productCategory.value,
+                stock: parseInt(productStock.value),
+                cost: parseFloat(productCost.value),
+                price: parseFloat(productPrice.value),
+                image: $('productImage').value,
+                id: id || Date.now()
+            };
+
+            if (id) {
+                // Editar producto
+                const index = products.findIndex(p => p.id == id);
+                if (index !== -1) {
+                    products[index] = newProduct;
+                    showToast('Producto editado con éxito!');
+                }
+            } else {
+                // Agregar producto
+                products.push(newProduct);
+                showToast('Producto agregado con éxito!');
+            }
+            saveData();
+            renderAll();
+            closeProductModal();
+            
+            // Reabrir el modal para el siguiente producto si la sesión está activa
+            if (isAdminSessionActive) {
+                setTimeout(() => {
+                    openProductModal();
+                }, 500); // Pequeño retraso para que se vea el efecto de cierre y reapertura
+            } else {
+                 exitProductAdminBtn.classList.add('hidden');
+            }
+        });
+
+        $('cancelProductBtn').addEventListener('click', closeProductModal);
+
+        // Delegación de eventos para los botones de la tabla
+        $('productsTableBody').addEventListener('click', (e) => {
+            const id = e.target.dataset.id;
+            const product = products.find(p => p.id == id);
+
+            if (e.target.classList.contains('edit-product-btn')) {
+                // Para editar, también se requiere autenticación, pero la sesión de admin aplica
+                if (isAdminSessionActive) {
+                    openProductModal(product);
+                } else {
+                    promptForPassword(() => {
+                        isAdminSessionActive = true;
+                        openProductModal(product);
+                    });
+                }
+            } else if (e.target.classList.contains('delete-product-btn')) {
+                // Eliminar producto, pide contraseña cada vez
+                promptForPassword(() => {
+                    products = products.filter(p => p.id != id);
+                    saveData();
+                    renderAll();
+                    showToast('Producto eliminado con éxito.');
+                });
+            }
+        });
+        
+        function populateCategoryFilter() {
+            const categories = [...new Set(products.map(p => p.category))];
+            const categoryFilter = $('categoryFilter');
+            categoryFilter.innerHTML = '<option value="">Todas las categorías</option>';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+        
+        // Filtro y búsqueda de productos
+        $('productSearch').addEventListener('input', filterAndRenderProducts);
+        $('categoryFilter').addEventListener('change', filterAndRenderProducts);
+
+        function filterAndRenderProducts() {
+            const searchTerm = $('productSearch').value.toLowerCase();
+            const categoryTerm = $('categoryFilter').value;
+            const filtered = products.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
+                const matchesCategory = categoryTerm === '' || p.category === categoryTerm;
+                return matchesSearch && matchesCategory;
+            });
+            renderProductsTable(filtered);
+        }
+
+        // Sales Section
+        const currentSaleTableBody = $('currentSaleTableBody');
+        const saleTotalElement = $('saleTotal');
+        const saleProductSearch = $('saleProductSearch');
+        const availableProductsTableBody = $('availableProductsTableBody');
+
+        function renderAvailableProductsTable() {
+            availableProductsTableBody.innerHTML = '';
+            const filtered = products.filter(p => p.name.toLowerCase().includes(saleProductSearch.value.toLowerCase()));
+            filtered.forEach(product => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                row.innerHTML = `
+                    <td class="p-4">${product.name}</td>
+                    <td class="p-4 text-center">${product.stock}</td>
+                    <td class="p-4 text-center">${formatCurrency(product.price)}</td>
+                    <td class="p-4 text-center">
+                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-2 py-1 rounded-lg add-to-sale-btn" data-id="${product.id}">+</button>
+                    </td>
+                `;
+                availableProductsTableBody.appendChild(row);
+            });
+        }
+
+        function renderCurrentSale() {
+            currentSaleTableBody.innerHTML = '';
+            let total = 0;
+            currentSale.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10';
+                row.innerHTML = `
+                    <td class="p-4">${item.name}</td>
+                    <td class="p-4 text-center">${item.quantity}</td>
+                    <td class="p-4 text-center">${formatCurrency(item.price)}</td>
+                    <td class="p-4 text-right">${formatCurrency(subtotal)}</td>
+                    <td class="p-4">
+                        <button class="text-red-500 hover:text-red-700 remove-from-sale-btn" data-id="${item.id}">X</button>
+                    </td>
+                `;
+                currentSaleTableBody.appendChild(row);
+            });
+            saleTotalElement.textContent = formatCurrency(total);
+            saveData();
+        }
+
+        $('availableProductsTableBody').addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-sale-btn')) {
+                const id = parseInt(e.target.dataset.id);
+                const product = products.find(p => p.id === id);
+                if (product.stock > 0) {
+                    const existingItem = currentSale.find(item => item.id === id);
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        currentSale.push({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            cost: product.cost,
+                            quantity: 1
+                        });
+                    }
+                    product.stock--;
+                    saveData();
+                    renderCurrentSale();
+                    renderAvailableProductsTable();
+                    renderDashboard();
+                } else {
+                    showToast('Stock insuficiente.', 'error');
+                }
+            }
+        });
+
+        $('currentSaleTableBody').addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-from-sale-btn')) {
+                const id = parseInt(e.target.dataset.id);
+                const existingItem = currentSale.find(item => item.id === id);
+                if (existingItem) {
+                    const product = products.find(p => p.id === id);
+                    product.stock += existingItem.quantity;
+                    currentSale = currentSale.filter(item => item.id !== id);
+                    saveData();
+                    renderCurrentSale();
+                    renderAvailableProductsTable();
+                    renderDashboard();
+                }
+            }
+        });
+
+        $('saleForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (currentSale.length === 0) {
+                showToast('La venta no puede estar vacía.', 'error');
+                return;
+            }
+
+            const total = currentSale.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const profit = currentSale.reduce((sum, item) => sum + ((item.price - item.cost) * item.quantity), 0);
+
+            const newSale = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                total,
+                profit,
+                items: currentSale,
+                paymentMethod: $('salePaymentMethod').value
+            };
+            salesHistory.push(newSale);
+            currentSale = [];
+            saveData();
+            renderAll();
+            showToast('Venta registrada con éxito.');
+        });
+
+        saleProductSearch.addEventListener('input', renderAvailableProductsTable);
+
+        // History Section
+        function renderHistoryTable() {
+            const tableBody = $('historyTableBody');
+            tableBody.innerHTML = '';
+            salesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            salesHistory.forEach(sale => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                const saleDate = new Date(sale.date);
+                row.innerHTML = `
+                    <td class="p-4 text-sm">${sale.id}</td>
+                    <td class="p-4 text-sm">${saleDate.toLocaleString()}</td>
+                    <td class="p-4">${formatCurrency(sale.total)}</td>
+                    <td class="p-4 text-green-400">${formatCurrency(sale.profit)}</td>
+                    <td class="p-4">${sale.paymentMethod}</td>
+                    <td class="p-4">
+                        <button class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded-lg delete-sale-btn" data-id="${sale.id}">Eliminar</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        $('historyTableBody').addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-sale-btn')) {
+                const saleId = parseInt(e.target.dataset.id);
+                promptForPassword(() => {
+                    deleteSale(saleId);
+                });
+            }
+        });
+
+        function deleteSale(saleId) {
+            const saleToDelete = salesHistory.find(s => s.id === saleId);
+            if (!saleToDelete) return;
+            
+            // Reintegrar stock y ajustar balance
+            saleToDelete.items.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    product.stock += item.quantity;
+                }
+            });
+
+            // Eliminar la venta del historial
+            salesHistory = salesHistory.filter(s => s.id !== saleId);
+            saveData();
+            renderAll();
+            showToast('Venta eliminada con éxito. Stock y balance actualizados.', 'success');
+        }
+
+
+        // Reports Section
+        function renderReportsTable() {
+            const reports = {};
+            salesHistory.forEach(sale => {
+                sale.items.forEach(item => {
+                    if (!reports[item.name]) {
+                        reports[item.name] = {
+                            unitsSold: 0,
+                            totalSales: 0,
+                            totalProfit: 0
+                        };
+                    }
+                    reports[item.name].unitsSold += item.quantity;
+                    reports[item.name].totalSales += item.price * item.quantity;
+                    reports[item.name].totalProfit += (item.price - item.cost) * item.quantity;
+                });
+            });
+
+            const tableBody = $('reportsTableBody');
+            tableBody.innerHTML = '';
+            for (const name in reports) {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                row.innerHTML = `
+                    <td class="p-4">${name}</td>
+                    <td class="p-4">${reports[name].unitsSold}</td>
+                    <td class="p-4">${formatCurrency(reports[name].totalSales)}</td>
+                    <td class="p-4 text-green-400">${formatCurrency(reports[name].totalProfit)}</td>
+                `;
+                tableBody.appendChild(row);
+            }
+        }
+
+        $('exportCsvBtn').addEventListener('click', () => {
+            const rows = [['Producto', 'Unidades Vendidas', 'Ventas Totales', 'Ganancia Total']];
+            const reports = {};
+            salesHistory.forEach(sale => {
+                sale.items.forEach(item => {
+                    if (!reports[item.name]) {
+                        reports[item.name] = {
+                            unitsSold: 0,
+                            totalSales: 0,
+                            totalProfit: 0
+                        };
+                    }
+                    reports[item.name].unitsSold += item.quantity;
+                    reports[item.name].totalSales += item.price * item.quantity;
+                    reports[item.name].totalProfit += (item.price - item.cost) * item.quantity;
+                });
+            });
+            for (const name in reports) {
+                rows.push([name, reports[name].unitsSold, reports[name].totalSales, reports[name].totalProfit]);
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'reporte_ventas.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Reporte exportado como CSV.', 'success');
+        });
+
+        // Balance Section
+        function renderBalanceCharts() {
+            const categories = {};
+            let totalStock = 0;
+            products.forEach(p => {
+                if (!categories[p.category]) {
+                    categories[p.category] = { stock: 0 };
+                }
+                categories[p.category].stock += p.stock;
+                totalStock += p.stock;
+            });
+
+            const categoryBalanceList = $('categoryBalance');
+            categoryBalanceList.innerHTML = '';
+            const chartLabels = [];
+            const chartData = [];
+            const chartColors = ['#9333ea', '#65a30d', '#dc2626', '#14b8a6', '#f59e0b', '#a855f7'];
+            let colorIndex = 0;
+
+            for (const category in categories) {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center glass-card p-4 rounded-lg';
+                const percentage = totalStock > 0 ? (categories[category].stock / totalStock) * 100 : 0;
+                div.innerHTML = `
+                    <span class="font-semibold">${category}</span>
+                    <span class="text-green-400">${categories[category].stock} unidades (${percentage.toFixed(1)}%)</span>
+                `;
+                categoryBalanceList.appendChild(div);
+
+                chartLabels.push(category);
+                chartData.push(categories[category].stock);
+            }
+            if (Object.keys(categories).length === 0) {
+                categoryBalanceList.innerHTML = '<p class="text-gray-400">No hay productos en stock.</p>';
+            }
+
+            if (categoryStockChart) {
+                categoryStockChart.destroy();
+            }
+
+            const ctx = $('categoryStockChart').getContext('2d');
+            categoryStockChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        data: chartData,
+                        backgroundColor: chartColors.slice(0, chartLabels.length),
+                        borderColor: '#10180f',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#e2e8f0',
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = (value / total) * 100;
+                                    return `${label}: ${value} (${percentage.toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Reiniciar ventas del día
+        $('resetDailySalesBtn').addEventListener('click', () => {
+            promptForPassword(() => {
+                const today = new Date().toDateString();
+                const salesToReset = salesHistory.filter(sale => new Date(sale.date).toDateString() === today);
+                
+                // Reintegrar stock de las ventas del día
+                salesToReset.forEach(sale => {
+                    sale.items.forEach(item => {
+                        const product = products.find(p => p.id === item.id);
+                        if (product) {
+                            product.stock += item.quantity;
+                        }
+                    });
+                });
+
+                // Eliminar las ventas del día del historial
+                salesHistory = salesHistory.filter(sale => new Date(sale.date).toDateString() !== today);
+                
+                // Limpiar la venta en curso por si acaso
+                currentSale = [];
+
+                saveData();
+                renderAll();
+                showToast('Ventas del día reiniciadas con éxito. Stock actualizado.');
+            });
+        });
+
+    </script>
+</body>
+</html>
