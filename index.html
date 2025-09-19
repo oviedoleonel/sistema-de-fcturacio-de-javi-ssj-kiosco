@@ -94,10 +94,8 @@
 <body class="text-gray-200">
 
     <div class="flex h-screen bg-transparent">
-        <!-- Sidebar para desktop -->
         <aside class="hidden md:flex flex-col w-64 glass-card m-2">
             <div class="flex items-center justify-center h-20 border-b border-emerald-500/30">
-                <!-- Logo -->
                 <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-12 w-12 rounded-full mr-2">
                 <span class="ml-2 text-xl font-bold">Kiosco ssj</span>
             </div>
@@ -116,9 +114,7 @@
             </div>
         </aside>
 
-        <!-- Contenido Principal -->
         <main class="flex-1 main-content p-4 md:p-6">
-            <!-- Dashboard Section -->
             <section id="dashboard" class="content-section">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Dashboard</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -156,7 +152,6 @@
                 </div>
             </section>
 
-            <!-- Products Section -->
             <section id="products" class="content-section hidden">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Gestión de Productos</h1>
                 <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
@@ -186,11 +181,9 @@
                 </div>
             </section>
 
-            <!-- Sales Section -->
             <section id="sales" class="content-section hidden">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Registrar Venta</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Columna de productos disponibles -->
                     <div class="glass-card p-6">
                         <h2 class="text-xl font-bold mb-4">Productos Disponibles</h2>
                         <input type="text" id="saleProductSearch" placeholder="Buscar producto..." class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 mb-4 focus:ring-emerald-500 focus:border-emerald-500">
@@ -210,7 +203,6 @@
                         </div>
                     </div>
                     
-                    <!-- Columna de venta en curso -->
                     <div class="glass-card p-6">
                         <h2 class="text-xl font-bold mb-4">Venta en Curso</h2>
                         <form id="saleForm" class="space-y-4">
@@ -251,7 +243,6 @@
                 </div>
             </section>
 
-            <!-- Reports Section -->
             <section id="reports" class="content-section hidden">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Reportes y Balances</h1>
                 <div class="flex justify-end mb-4">
@@ -273,7 +264,6 @@
                 </div>
             </section>
 
-            <!-- Balance Section -->
             <section id="balance" class="content-section hidden">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Balance de la Planta</h1>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -291,7 +281,6 @@
                 </div>
             </section>
 
-            <!-- History Section -->
             <section id="history" class="content-section hidden">
                 <h1 class="text-3xl font-bold mb-6 text-emerald-300">Historial de Ventas</h1>
                 <div class="glass-card p-6 overflow-x-auto">
@@ -315,7 +304,6 @@
         </main>
     </div>
 
-    <!-- Navegación para móvil -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-card flex justify-around p-2 border-t border-emerald-500/30">
         <a href="#dashboard" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6 nav-item-active">Dashboard</a>
         <a href="#products" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Productos</a>
@@ -325,7 +313,6 @@
         <a href="#history" class="nav-item flex flex-col items-center text-xs p-2 rounded-lg w-1/6">Historial</a>
     </nav>
 
-    <!-- Product Modal -->
     <div id="productModal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
         <div class="glass-card p-8 rounded-lg shadow-2xl w-full max-w-md m-4">
             <div class="flex justify-between items-center mb-6">
@@ -368,13 +355,11 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
     <div id="adminModal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
         <div class="glass-card p-8 rounded-lg shadow-2xl w-full max-w-md m-4 text-center">
-            <!-- Logo en el modal de admin -->
             <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-16 w-16 mx-auto mb-4 rounded-full">
-            <h2 class="text-2xl font-bold mb-4 text-emerald-300">Confirmación de Administrador</h2>
-            <p class="text-gray-400 mb-6">Ingresa la contraseña para confirmar la acción.</p>
+            <h2 id="adminModalTitle" class="text-2xl font-bold mb-4 text-emerald-300">Confirmación de Administrador</h2>
+            <p id="adminModalMessage" class="text-gray-400 mb-6">Ingresa la contraseña para confirmar la acción.</p>
             <form id="adminForm" class="space-y-4">
                 <input type="password" id="adminPasswordInput" placeholder="Contraseña de Administrador" required class="w-full bg-gray-700/50 border border-emerald-500/30 rounded-lg px-4 py-2 focus:ring-emerald-500 focus:border-emerald-500">
                 <div class="flex justify-end gap-4 pt-4">
@@ -385,7 +370,6 @@
         </div>
     </div>
 
-    <!-- Notification Toast -->
     <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg transform translate-x-[120%]" style="transition: transform 0.5s ease-in-out; z-index: 1000;">
         <p id="toastMessage"></p>
     </div>
@@ -413,6 +397,7 @@
         // Variable para almacenar el callback de la acción administrativa
         let adminActionCallback = null;
         let isAdminSessionActive = false; // Nueva variable de estado para la sesión de admin
+        let currentAdminSection = ''; // 'products', 'edit', 'delete', 'history'
 
         // Modal de administrador
         const adminModal = $('adminModal');
@@ -421,22 +406,40 @@
         const adminPassword = 'losmarmotas123'; // La contraseña por defecto
         
         // Función para mostrar el modal de contraseña y ejecutar una acción si es correcta
-        function promptForPassword(callback) {
+        function promptForPassword(callback, section) {
+            currentAdminSection = section;
             adminActionCallback = callback;
             adminPasswordInput.value = '';
-            adminModal.classList.remove('hidden');
-            adminModal.classList.add('flex');
+            $('adminModalTitle').textContent = 'Confirmación de Administrador';
+            $('adminModalMessage').textContent = 'Ingresa la contraseña para confirmar la acción.';
+            $('cancelAdminBtn').textContent = 'Cancelar';
+            $('adminModal').classList.remove('hidden');
+            $('adminModal').classList.add('flex');
         }
 
         // Evento de confirmación en el modal de admin
         adminForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (adminPasswordInput.value === adminPassword) {
-                adminModal.classList.remove('flex');
-                adminModal.classList.add('hidden');
-                if (adminActionCallback) {
-                    adminActionCallback();
-                    adminActionCallback = null;
+                if (currentAdminSection === 'history') {
+                    // Para el historial, la contraseña se pide cada vez, así que no se activa la sesión
+                    adminModal.classList.remove('flex');
+                    adminModal.classList.add('hidden');
+                    if (adminActionCallback) {
+                        adminActionCallback();
+                        adminActionCallback = null;
+                    }
+                } else {
+                    isAdminSessionActive = true;
+                    adminModal.classList.remove('flex');
+                    adminModal.classList.add('hidden');
+                    showToast('Sesión de administrador iniciada.', 'success');
+                    if (adminActionCallback) {
+                        adminActionCallback();
+                        adminActionCallback = null;
+                    }
+                    // Mostrar el botón de Salir solo si la sesión está activa y no estamos en la sección de historial
+                    $('exitProductAdminBtn').classList.remove('hidden');
                 }
             } else {
                 showToast('Contraseña incorrecta.', 'error');
@@ -447,6 +450,15 @@
             adminModal.classList.remove('flex');
             adminModal.classList.add('hidden');
             adminActionCallback = null;
+        });
+
+        // Lógica de Salir de la sesión de admin
+        $('exitProductAdminBtn').addEventListener('click', () => {
+            isAdminSessionActive = false;
+            $('productModal').classList.add('hidden');
+            $('productModal').classList.remove('flex');
+            $('exitProductAdminBtn').classList.add('hidden');
+            showToast('Sesión de administrador cerrada.', 'success');
         });
 
         // Almacenamiento y gestión de datos en localStorage
@@ -601,219 +613,249 @@
                 criticalStockList.innerHTML = '<p class="text-gray-400">No hay productos con stock crítico.</p>';
             } else {
                 criticalProducts.forEach(product => {
-                    const div = document.createElement('div');
-                    div.className = 'glass-card p-4 flex justify-between items-center';
-                    div.innerHTML = `
+                    const productItem = document.createElement('div');
+                    productItem.className = 'bg-red-900/40 p-3 rounded-lg flex justify-between items-center';
+                    productItem.innerHTML = `
                         <span>${product.name}</span>
-                        <span class="text-red-500 font-bold">${product.stock} unidades</span>
+                        <span class="font-bold text-red-400">${product.stock} unidades</span>
                     `;
-                    criticalStockList.appendChild(div);
+                    criticalStockList.appendChild(productItem);
                 });
             }
         }
 
-        // Products Section
-        const productModal = $('productModal');
-        const addProductBtn = $('addProductBtn');
-        const exitProductAdminBtn = $('exitProductAdminBtn');
-        const productForm = $('productForm');
-        const productName = $('productName');
-        const productCategory = $('productCategory');
-        const productStock = $('productStock');
-        const productCost = $('productCost');
-        const productPrice = $('productPrice');
-        const productId = $('productId');
-        const modalTitle = $('modalTitle');
-        let currentProductToDeleteId = null;
+        // --- Gestión de Productos ---
 
-        function openProductModal(product = null) {
+        // Abrir modal de agregar producto
+        $('addProductBtn').addEventListener('click', () => {
+            if (isAdminSessionActive && currentAdminSection === 'products') {
+                showProductModal();
+            } else {
+                promptForPassword(() => {
+                    showProductModal();
+                }, 'products');
+            }
+        });
+
+        // Lógica para mostrar y ocultar el modal
+        const productModal = $('productModal');
+        const productForm = $('productForm');
+        const modalTitle = $('modalTitle');
+        const productIdInput = $('productId');
+
+        function showProductModal(product = null) {
+            productForm.reset();
             if (product) {
                 modalTitle.textContent = 'Editar Producto';
-                productId.value = product.id;
-                productName.value = product.name;
-                productCategory.value = product.category;
-                productStock.value = product.stock;
-                productCost.value = product.cost;
-                productPrice.value = product.price;
+                productIdInput.value = product.id;
+                $('productName').value = product.name;
+                $('productCategory').value = product.category;
+                $('productStock').value = product.stock;
+                $('productCost').value = product.cost;
+                $('productPrice').value = product.price;
+                $('productImage').value = product.image || '';
             } else {
                 modalTitle.textContent = 'Agregar Producto';
-                productForm.reset();
-                productId.value = '';
+                productIdInput.value = '';
             }
             productModal.classList.remove('hidden');
             productModal.classList.add('flex');
-            exitProductAdminBtn.classList.remove('hidden'); // Mostrar el botón Salir
         }
 
-        function closeProductModal() {
-            productModal.classList.remove('flex');
+        $('cancelProductBtn').addEventListener('click', () => {
             productModal.classList.add('hidden');
-        }
+            productModal.classList.remove('flex');
+            // Si la sesión de admin está activa, no la cierres
+            if (!isAdminSessionActive) {
+                $('exitProductAdminBtn').classList.add('hidden');
+                currentAdminSection = '';
+            }
+        });
 
-        function renderProductsTable(filteredProducts = products) {
+        // Formulario de agregar/editar producto
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = productIdInput.value;
+            const name = $('productName').value;
+            const category = $('productCategory').value;
+            const stock = parseInt($('productStock').value);
+            const cost = parseFloat($('productCost').value);
+            const price = parseFloat($('productPrice').value);
+            const image = $('productImage').value;
+
+            if (id) {
+                // Editar producto
+                const productIndex = products.findIndex(p => p.id === id);
+                if (productIndex > -1) {
+                    products[productIndex] = { ...products[productIndex], name, category, stock, cost, price, image };
+                    showToast('Producto actualizado correctamente.', 'success');
+                }
+            } else {
+                // Agregar producto
+                const newProduct = {
+                    id: Date.now().toString(),
+                    name,
+                    category,
+                    stock,
+                    cost,
+                    price,
+                    image
+                };
+                products.push(newProduct);
+                showToast('Producto agregado correctamente.', 'success');
+            }
+            saveData();
+            renderAll();
+            productModal.classList.add('hidden');
+            productModal.classList.remove('flex');
+        });
+
+        function renderProductsTable() {
             const tableBody = $('productsTableBody');
             tableBody.innerHTML = '';
+            const searchText = $('productSearch').value.toLowerCase();
+            const categoryFilter = $('categoryFilter').value;
+
+            const filteredProducts = products.filter(p =>
+                (p.name.toLowerCase().includes(searchText) || p.category.toLowerCase().includes(searchText)) &&
+                (categoryFilter === '' || p.category === categoryFilter)
+            );
+
             filteredProducts.forEach(product => {
                 const row = document.createElement('tr');
-                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-900/20 transition-colors duration-200';
                 row.innerHTML = `
-                    <td class="p-4 font-semibold">${product.name}</td>
+                    <td class="p-4">${product.name}</td>
                     <td class="p-4">${product.category}</td>
-                    <td class="p-4 text-center">${product.stock}</td>
+                    <td class="p-4">${product.stock}</td>
                     <td class="p-4">${formatCurrency(product.cost)}</td>
                     <td class="p-4">${formatCurrency(product.price)}</td>
                     <td class="p-4">
-                        <div class="flex gap-2">
-                            <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded-lg neon-button edit-product-btn" data-id="${product.id}">Editar</button>
-                            <button class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded-lg neon-button delete-product-btn" data-id="${product.id}">Eliminar</button>
-                        </div>
+                        <button class="edit-btn text-yellow-400 hover:text-yellow-600 font-bold px-2 py-1 rounded-lg" data-id="${product.id}">Editar</button>
+                        <button class="delete-btn text-red-400 hover:text-red-600 font-bold px-2 py-1 rounded-lg ml-2" data-id="${product.id}">Eliminar</button>
                     </td>
                 `;
                 tableBody.appendChild(row);
             });
+
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
+                    const productToEdit = products.find(p => p.id === id);
+                    if (isAdminSessionActive && currentAdminSection === 'products') {
+                        showProductModal(productToEdit);
+                    } else {
+                        promptForPassword(() => {
+                            showProductModal(productToEdit);
+                        }, 'products');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
+                    if (isAdminSessionActive && currentAdminSection === 'products') {
+                        deleteProduct(id);
+                    } else {
+                        promptForPassword(() => {
+                            deleteProduct(id);
+                        }, 'products');
+                    }
+                });
+            });
         }
-        
-        // Manejador del botón "Agregar Producto"
-        addProductBtn.addEventListener('click', () => {
-            if (isAdminSessionActive) {
-                openProductModal();
-            } else {
-                promptForPassword(() => {
-                    isAdminSessionActive = true;
-                    openProductModal();
-                });
+
+        function deleteProduct(id) {
+            const productIndex = products.findIndex(p => p.id === id);
+            if (productIndex > -1) {
+                products.splice(productIndex, 1);
+                saveData();
+                showToast('Producto eliminado correctamente.', 'success');
+                renderAll();
             }
-        });
+        }
 
-        // Manejador del botón "Salir" del modal de productos
-        exitProductAdminBtn.addEventListener('click', () => {
-            isAdminSessionActive = false;
-            closeProductModal();
-            exitProductAdminBtn.classList.add('hidden'); // Ocultar el botón Salir
-            showToast('Sesión de administración cerrada.');
-        });
-        
-        productForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = productId.value;
-            const newProduct = {
-                name: productName.value,
-                category: productCategory.value,
-                stock: parseInt(productStock.value),
-                cost: parseFloat(productCost.value),
-                price: parseFloat(productPrice.value),
-                image: $('productImage').value,
-                id: id || Date.now()
-            };
+        $('productSearch').addEventListener('input', renderProductsTable);
+        $('categoryFilter').addEventListener('change', renderProductsTable);
 
-            if (id) {
-                // Editar producto
-                const index = products.findIndex(p => p.id == id);
-                if (index !== -1) {
-                    products[index] = newProduct;
-                    showToast('Producto editado con éxito!');
-                }
-            } else {
-                // Agregar producto
-                products.push(newProduct);
-                showToast('Producto agregado con éxito!');
-            }
-            saveData();
-            renderAll();
-            closeProductModal();
-            
-            // Reabrir el modal para el siguiente producto si la sesión está activa
-            if (isAdminSessionActive) {
-                setTimeout(() => {
-                    openProductModal();
-                }, 500); // Pequeño retraso para que se vea el efecto de cierre y reapertura
-            } else {
-                 exitProductAdminBtn.classList.add('hidden');
-            }
-        });
-
-        $('cancelProductBtn').addEventListener('click', closeProductModal);
-
-        // Delegación de eventos para los botones de la tabla
-        $('productsTableBody').addEventListener('click', (e) => {
-            const id = e.target.dataset.id;
-            const product = products.find(p => p.id == id);
-
-            if (e.target.classList.contains('edit-product-btn')) {
-                // Para editar, también se requiere autenticación, pero la sesión de admin aplica
-                if (isAdminSessionActive) {
-                    openProductModal(product);
-                } else {
-                    promptForPassword(() => {
-                        isAdminSessionActive = true;
-                        openProductModal(product);
-                    });
-                }
-            } else if (e.target.classList.contains('delete-product-btn')) {
-                // Eliminar producto, pide contraseña cada vez
-                promptForPassword(() => {
-                    products = products.filter(p => p.id != id);
-                    saveData();
-                    renderAll();
-                    showToast('Producto eliminado con éxito.');
-                });
-            }
-        });
-        
         function populateCategoryFilter() {
+            const select = $('categoryFilter');
+            select.innerHTML = '<option value="">Todas las categorías</option>';
             const categories = [...new Set(products.map(p => p.category))];
-            const categoryFilter = $('categoryFilter');
-            categoryFilter.innerHTML = '<option value="">Todas las categorías</option>';
-            categories.forEach(category => {
+            categories.forEach(cat => {
                 const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                categoryFilter.appendChild(option);
+                option.value = cat;
+                option.textContent = cat;
+                select.appendChild(option);
             });
         }
-        
-        // Filtro y búsqueda de productos
-        $('productSearch').addEventListener('input', filterAndRenderProducts);
-        $('categoryFilter').addEventListener('change', filterAndRenderProducts);
 
-        function filterAndRenderProducts() {
-            const searchTerm = $('productSearch').value.toLowerCase();
-            const categoryTerm = $('categoryFilter').value;
-            const filtered = products.filter(p => {
-                const matchesSearch = p.name.toLowerCase().includes(searchTerm);
-                const matchesCategory = categoryTerm === '' || p.category === categoryTerm;
-                return matchesSearch && matchesCategory;
-            });
-            renderProductsTable(filtered);
-        }
-
-        // Sales Section
-        const currentSaleTableBody = $('currentSaleTableBody');
-        const saleTotalElement = $('saleTotal');
-        const saleProductSearch = $('saleProductSearch');
-        const availableProductsTableBody = $('availableProductsTableBody');
+        // --- Lógica de Ventas ---
 
         function renderAvailableProductsTable() {
-            availableProductsTableBody.innerHTML = '';
-            const filtered = products.filter(p => p.name.toLowerCase().includes(saleProductSearch.value.toLowerCase()));
-            filtered.forEach(product => {
+            const tableBody = $('availableProductsTableBody');
+            tableBody.innerHTML = '';
+            const searchText = $('saleProductSearch').value.toLowerCase();
+            const filteredProducts = products.filter(p =>
+                p.stock > 0 && p.name.toLowerCase().includes(searchText)
+            );
+
+            filteredProducts.forEach(product => {
                 const row = document.createElement('tr');
-                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-900/20 transition-colors duration-200';
                 row.innerHTML = `
                     <td class="p-4">${product.name}</td>
                     <td class="p-4 text-center">${product.stock}</td>
                     <td class="p-4 text-center">${formatCurrency(product.price)}</td>
                     <td class="p-4 text-center">
-                        <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-2 py-1 rounded-lg add-to-sale-btn" data-id="${product.id}">+</button>
+                        <button class="add-to-sale-btn bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-lg" data-id="${product.id}">+</button>
                     </td>
                 `;
-                availableProductsTableBody.appendChild(row);
+                tableBody.appendChild(row);
+            });
+
+            document.querySelectorAll('.add-to-sale-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
+                    addProductToSale(id);
+                });
             });
         }
 
+        function addProductToSale(id) {
+            const product = products.find(p => p.id === id);
+            if (!product || product.stock <= 0) {
+                showToast('Stock insuficiente.', 'error');
+                return;
+            }
+
+            const existingItem = currentSale.find(item => item.id === id);
+            if (existingItem) {
+                if (existingItem.quantity >= product.stock) {
+                    showToast('No se puede agregar más, stock agotado.', 'error');
+                    return;
+                }
+                existingItem.quantity++;
+            } else {
+                currentSale.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    cost: product.cost,
+                    quantity: 1
+                });
+            }
+            saveData();
+            renderCurrentSale();
+            renderAvailableProductsTable();
+        }
+
         function renderCurrentSale() {
-            currentSaleTableBody.innerHTML = '';
+            const tableBody = $('currentSaleTableBody');
+            tableBody.innerHTML = '';
             let total = 0;
+
             currentSale.forEach(item => {
                 const subtotal = item.price * item.quantity;
                 total += subtotal;
@@ -821,278 +863,220 @@
                 row.className = 'border-b border-emerald-500/10';
                 row.innerHTML = `
                     <td class="p-4">${item.name}</td>
-                    <td class="p-4 text-center">${item.quantity}</td>
+                    <td class="p-4 text-center">
+                        <input type="number" min="1" value="${item.quantity}" class="quantity-input w-16 bg-gray-700/50 border border-emerald-500/30 rounded text-center" data-id="${item.id}">
+                    </td>
                     <td class="p-4 text-center">${formatCurrency(item.price)}</td>
                     <td class="p-4 text-right">${formatCurrency(subtotal)}</td>
                     <td class="p-4">
-                        <button class="text-red-500 hover:text-red-700 remove-from-sale-btn" data-id="${item.id}">X</button>
+                        <button class="remove-from-sale-btn text-red-400 hover:text-red-600 font-bold" data-id="${item.id}">X</button>
                     </td>
                 `;
-                currentSaleTableBody.appendChild(row);
+                tableBody.appendChild(row);
             });
-            saleTotalElement.textContent = formatCurrency(total);
-            saveData();
-        }
 
-        $('availableProductsTableBody').addEventListener('click', (e) => {
-            if (e.target.classList.contains('add-to-sale-btn')) {
-                const id = parseInt(e.target.dataset.id);
-                const product = products.find(p => p.id === id);
-                if (product.stock > 0) {
-                    const existingItem = currentSale.find(item => item.id === id);
-                    if (existingItem) {
-                        existingItem.quantity++;
-                    } else {
-                        currentSale.push({
-                            id: product.id,
-                            name: product.name,
-                            price: product.price,
-                            cost: product.cost,
-                            quantity: 1
-                        });
+            $('saleTotal').textContent = formatCurrency(total);
+            
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const id = e.target.dataset.id;
+                    const newQuantity = parseInt(e.target.value);
+                    const productInStock = products.find(p => p.id === id);
+                    if (newQuantity < 1) {
+                        e.target.value = 1;
+                        showToast('La cantidad no puede ser menor a 1.', 'error');
+                        return;
                     }
-                    product.stock--;
-                    saveData();
-                    renderCurrentSale();
-                    renderAvailableProductsTable();
-                    renderDashboard();
-                } else {
-                    showToast('Stock insuficiente.', 'error');
-                }
-            }
-        });
+                    if (newQuantity > productInStock.stock) {
+                        e.target.value = productInStock.stock;
+                        showToast(`No hay suficiente stock. Máximo: ${productInStock.stock}`, 'error');
+                        return;
+                    }
+                    const item = currentSale.find(i => i.id === id);
+                    if (item) {
+                        item.quantity = newQuantity;
+                        saveData();
+                        renderCurrentSale();
+                    }
+                });
+            });
 
-        $('currentSaleTableBody').addEventListener('click', (e) => {
-            if (e.target.classList.contains('remove-from-sale-btn')) {
-                const id = parseInt(e.target.dataset.id);
-                const existingItem = currentSale.find(item => item.id === id);
-                if (existingItem) {
-                    const product = products.find(p => p.id === id);
-                    product.stock += existingItem.quantity;
+            document.querySelectorAll('.remove-from-sale-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
                     currentSale = currentSale.filter(item => item.id !== id);
                     saveData();
                     renderCurrentSale();
                     renderAvailableProductsTable();
-                    renderDashboard();
-                }
-            }
-        });
+                });
+            });
+        }
 
         $('saleForm').addEventListener('submit', (e) => {
             e.preventDefault();
             if (currentSale.length === 0) {
-                showToast('La venta no puede estar vacía.', 'error');
+                showToast('La venta está vacía.', 'error');
                 return;
             }
 
-            const total = currentSale.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const profit = currentSale.reduce((sum, item) => sum + ((item.price - item.cost) * item.quantity), 0);
+            const total = currentSale.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const profit = currentSale.reduce((sum, item) => sum + (item.price - item.cost) * item.quantity, 0);
+            const paymentMethod = $('salePaymentMethod').value;
+            const date = new Date().toISOString();
+
+            // Actualizar stock de productos
+            currentSale.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    product.stock -= item.quantity;
+                }
+            });
 
             const newSale = {
-                id: Date.now(),
-                date: new Date().toISOString(),
+                id: Date.now().toString(),
+                items: currentSale,
                 total,
                 profit,
-                items: currentSale,
-                paymentMethod: $('salePaymentMethod').value
+                paymentMethod,
+                date
             };
+
             salesHistory.push(newSale);
             currentSale = [];
             saveData();
+            showToast('Venta confirmada exitosamente.', 'success');
             renderAll();
-            showToast('Venta registrada con éxito.');
         });
 
-        saleProductSearch.addEventListener('input', renderAvailableProductsTable);
+        $('saleProductSearch').addEventListener('input', renderAvailableProductsTable);
 
-        // History Section
-        function renderHistoryTable() {
-            const tableBody = $('historyTableBody');
-            tableBody.innerHTML = '';
-            salesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-            salesHistory.forEach(sale => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
-                const saleDate = new Date(sale.date);
-                row.innerHTML = `
-                    <td class="p-4 text-sm">${sale.id}</td>
-                    <td class="p-4 text-sm">${saleDate.toLocaleString()}</td>
-                    <td class="p-4">${formatCurrency(sale.total)}</td>
-                    <td class="p-4 text-green-400">${formatCurrency(sale.profit)}</td>
-                    <td class="p-4">${sale.paymentMethod}</td>
-                    <td class="p-4">
-                        <button class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded-lg delete-sale-btn" data-id="${sale.id}">Eliminar</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+        // --- Reportes ---
 
-        $('historyTableBody').addEventListener('click', (e) => {
-            if (e.target.classList.contains('delete-sale-btn')) {
-                const saleId = parseInt(e.target.dataset.id);
-                promptForPassword(() => {
-                    deleteSale(saleId);
-                });
-            }
-        });
-
-        function deleteSale(saleId) {
-            const saleToDelete = salesHistory.find(s => s.id === saleId);
-            if (!saleToDelete) return;
-            
-            // Reintegrar stock y ajustar balance
-            saleToDelete.items.forEach(item => {
-                const product = products.find(p => p.id === item.id);
-                if (product) {
-                    product.stock += item.quantity;
-                }
-            });
-
-            // Eliminar la venta del historial
-            salesHistory = salesHistory.filter(s => s.id !== saleId);
-            saveData();
-            renderAll();
-            showToast('Venta eliminada con éxito. Stock y balance actualizados.', 'success');
-        }
-
-
-        // Reports Section
         function renderReportsTable() {
-            const reports = {};
-            salesHistory.forEach(sale => {
-                sale.items.forEach(item => {
-                    if (!reports[item.name]) {
-                        reports[item.name] = {
-                            unitsSold: 0,
-                            totalSales: 0,
-                            totalProfit: 0
-                        };
-                    }
-                    reports[item.name].unitsSold += item.quantity;
-                    reports[item.name].totalSales += item.price * item.quantity;
-                    reports[item.name].totalProfit += (item.price - item.cost) * item.quantity;
-                });
-            });
-
             const tableBody = $('reportsTableBody');
             tableBody.innerHTML = '';
-            for (const name in reports) {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-800/20 transition-colors';
-                row.innerHTML = `
-                    <td class="p-4">${name}</td>
-                    <td class="p-4">${reports[name].unitsSold}</td>
-                    <td class="p-4">${formatCurrency(reports[name].totalSales)}</td>
-                    <td class="p-4 text-green-400">${formatCurrency(reports[name].totalProfit)}</td>
-                `;
-                tableBody.appendChild(row);
-            }
-        }
+            const productReport = {};
 
-        $('exportCsvBtn').addEventListener('click', () => {
-            const rows = [['Producto', 'Unidades Vendidas', 'Ventas Totales', 'Ganancia Total']];
-            const reports = {};
             salesHistory.forEach(sale => {
                 sale.items.forEach(item => {
-                    if (!reports[item.name]) {
-                        reports[item.name] = {
+                    if (!productReport[item.id]) {
+                        productReport[item.id] = {
+                            name: item.name,
                             unitsSold: 0,
                             totalSales: 0,
                             totalProfit: 0
                         };
                     }
-                    reports[item.name].unitsSold += item.quantity;
-                    reports[item.name].totalSales += item.price * item.quantity;
-                    reports[item.name].totalProfit += (item.price - item.cost) * item.quantity;
+                    productReport[item.id].unitsSold += item.quantity;
+                    productReport[item.id].totalSales += item.price * item.quantity;
+                    productReport[item.id].totalProfit += (item.price - item.cost) * item.quantity;
                 });
             });
-            for (const name in reports) {
-                rows.push([name, reports[name].unitsSold, reports[name].totalSales, reports[name].totalProfit]);
+
+            for (const id in productReport) {
+                const report = productReport[id];
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-900/20 transition-colors duration-200';
+                row.innerHTML = `
+                    <td class="p-4">${report.name}</td>
+                    <td class="p-4">${report.unitsSold}</td>
+                    <td class="p-4">${formatCurrency(report.totalSales)}</td>
+                    <td class="p-4">${formatCurrency(report.totalProfit)}</td>
+                `;
+                tableBody.appendChild(row);
+            }
+        }
+
+        // Exportar a CSV
+        $('exportCsvBtn').addEventListener('click', () => {
+            const reportData = [['Producto', 'Unidades Vendidas', 'Ventas Totales', 'Ganancia Total']];
+            const productReport = {};
+
+            salesHistory.forEach(sale => {
+                sale.items.forEach(item => {
+                    if (!productReport[item.id]) {
+                        productReport[item.id] = {
+                            name: item.name,
+                            unitsSold: 0,
+                            totalSales: 0,
+                            totalProfit: 0
+                        };
+                    }
+                    productReport[item.id].unitsSold += item.quantity;
+                    productReport[item.id].totalSales += item.price * item.quantity;
+                    productReport[item.id].totalProfit += (item.price - item.cost) * item.quantity;
+                });
+            });
+
+            for (const id in productReport) {
+                const report = productReport[id];
+                reportData.push([
+                    report.name,
+                    report.unitsSold,
+                    report.totalSales.toFixed(2),
+                    report.totalProfit.toFixed(2)
+                ]);
             }
 
-            let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
+            const csvContent = "data:text/csv;charset=utf-8," + reportData.map(e => e.join(",")).join("\n");
             const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'reporte_ventas.csv');
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "reporte_kiosco.csv");
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+            link.remove();
             showToast('Reporte exportado como CSV.', 'success');
         });
 
-        // Balance Section
+        // --- Balance ---
         function renderBalanceCharts() {
-            const categories = {};
-            let totalStock = 0;
+            // Stock por categoría
+            const categoryStock = {};
             products.forEach(p => {
-                if (!categories[p.category]) {
-                    categories[p.category] = { stock: 0 };
+                if (!categoryStock[p.category]) {
+                    categoryStock[p.category] = 0;
                 }
-                categories[p.category].stock += p.stock;
-                totalStock += p.stock;
+                categoryStock[p.category] += p.stock;
             });
 
             const categoryBalanceList = $('categoryBalance');
             categoryBalanceList.innerHTML = '';
-            const chartLabels = [];
-            const chartData = [];
-            const chartColors = ['#9333ea', '#65a30d', '#dc2626', '#14b8a6', '#f59e0b', '#a855f7'];
-            let colorIndex = 0;
-
-            for (const category in categories) {
-                const div = document.createElement('div');
-                div.className = 'flex justify-between items-center glass-card p-4 rounded-lg';
-                const percentage = totalStock > 0 ? (categories[category].stock / totalStock) * 100 : 0;
-                div.innerHTML = `
-                    <span class="font-semibold">${category}</span>
-                    <span class="text-green-400">${categories[category].stock} unidades (${percentage.toFixed(1)}%)</span>
+            for (const category in categoryStock) {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center bg-gray-700/50 p-3 rounded-lg';
+                item.innerHTML = `
+                    <span>${category}</span>
+                    <span class="font-bold text-emerald-300">${categoryStock[category]} unidades</span>
                 `;
-                categoryBalanceList.appendChild(div);
-
-                chartLabels.push(category);
-                chartData.push(categories[category].stock);
-            }
-            if (Object.keys(categories).length === 0) {
-                categoryBalanceList.innerHTML = '<p class="text-gray-400">No hay productos en stock.</p>';
+                categoryBalanceList.appendChild(item);
             }
 
+            // Gráfico de distribución de stock
             if (categoryStockChart) {
                 categoryStockChart.destroy();
             }
+            const ctx2 = $('categoryStockChart').getContext('2d');
+            const labels = Object.keys(categoryStock);
+            const data = Object.values(categoryStock);
+            const colors = labels.map(() => `#${Math.floor(Math.random() * 16777215).toString(16)}`);
 
-            const ctx = $('categoryStockChart').getContext('2d');
-            categoryStockChart = new Chart(ctx, {
-                type: 'doughnut',
+            categoryStockChart = new Chart(ctx2, {
+                type: 'pie',
                 data: {
-                    labels: chartLabels,
+                    labels: labels,
                     datasets: [{
-                        data: chartData,
-                        backgroundColor: chartColors.slice(0, chartLabels.length),
-                        borderColor: '#10180f',
-                        borderWidth: 2,
+                        data: data,
+                        backgroundColor: colors,
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom',
                             labels: {
-                                color: '#e2e8f0',
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.parsed;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = (value / total) * 100;
-                                    return `${label}: ${value} (${percentage.toFixed(1)}%)`;
-                                }
+                                color: '#e2e8f0'
                             }
                         }
                     }
@@ -1100,34 +1084,83 @@
             });
         }
 
-        // Reiniciar ventas del día
+        // --- Historial de Ventas ---
+
+        function renderHistoryTable() {
+            const tableBody = $('historyTableBody');
+            tableBody.innerHTML = '';
+
+            // Mostrar el historial de ventas más reciente primero
+            const sortedHistory = [...salesHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            sortedHistory.forEach(sale => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-emerald-500/10 hover:bg-emerald-900/20 transition-colors duration-200';
+                const date = new Date(sale.date).toLocaleString('es-AR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                row.innerHTML = `
+                    <td class="p-4">${sale.id.slice(-6)}</td>
+                    <td class="p-4">${date}</td>
+                    <td class="p-4">${formatCurrency(sale.total)}</td>
+                    <td class="p-4">${formatCurrency(sale.profit)}</td>
+                    <td class="p-4">${sale.paymentMethod}</td>
+                    <td class="p-4">
+                        <button class="delete-sale-btn text-red-400 hover:text-red-600 font-bold px-2 py-1 rounded-lg" data-id="${sale.id}">Eliminar</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            document.querySelectorAll('.delete-sale-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = e.target.dataset.id;
+                    promptForPassword(() => {
+                        deleteSale(id);
+                    }, 'history');
+                });
+            });
+        }
+
+        function deleteSale(id) {
+            const saleIndex = salesHistory.findIndex(s => s.id === id);
+            if (saleIndex > -1) {
+                const saleToDelete = salesHistory[saleIndex];
+
+                // Devolver el stock de los productos vendidos
+                saleToDelete.items.forEach(item => {
+                    const product = products.find(p => p.id === item.id);
+                    if (product) {
+                        product.stock += item.quantity;
+                    }
+                });
+
+                // Eliminar la venta del historial
+                salesHistory.splice(saleIndex, 1);
+                saveData();
+                showToast('Venta eliminada correctamente y stock restaurado.', 'success');
+                renderAll();
+            }
+        }
+
+        // --- Botón de Reinicio ---
         $('resetDailySalesBtn').addEventListener('click', () => {
             promptForPassword(() => {
                 const today = new Date().toDateString();
-                const salesToReset = salesHistory.filter(sale => new Date(sale.date).toDateString() === today);
-                
-                // Reintegrar stock de las ventas del día
-                salesToReset.forEach(sale => {
-                    sale.items.forEach(item => {
-                        const product = products.find(p => p.id === item.id);
-                        if (product) {
-                            product.stock += item.quantity;
-                        }
-                    });
-                });
-
-                // Eliminar las ventas del día del historial
                 salesHistory = salesHistory.filter(sale => new Date(sale.date).toDateString() !== today);
-                
-                // Limpiar la venta en curso por si acaso
                 currentSale = [];
-
                 saveData();
+                showToast('Ventas del día reiniciadas.', 'success');
                 renderAll();
-                showToast('Ventas del día reiniciadas con éxito. Stock actualizado.');
-            });
+            }, 'daily-reset');
         });
 
     </script>
+
 </body>
 </html>
+
