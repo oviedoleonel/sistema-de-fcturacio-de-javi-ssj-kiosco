@@ -1,12 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiosco ssj</title>
+    <title>kiosco ssj</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" type="image/png">
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -96,8 +99,8 @@
     <div class="flex h-screen bg-transparent">
         <aside class="hidden md:flex flex-col w-64 glass-card m-2">
             <div class="flex items-center justify-center h-20 border-b border-emerald-500/30">
-                <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-12 w-12 rounded-full mr-2">
-                <span class="ml-2 text-xl font-bold">Kiosco ssj</span>
+                <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" class="h-12 w-12 rounded-full mr-2">
+                <span class="ml-2 text-xl font-bold">kiosco ssj</span>
             </div>
             <nav class="flex-1 px-2 py-4 space-y-2">
                 <a href="#dashboard" class="nav-item flex items-center px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200 nav-item-active">Dashboard</a>
@@ -357,7 +360,7 @@
 
     <div id="adminModal" class="fixed inset-0 z-50 items-center justify-center hidden modal-backdrop">
         <div class="glass-card p-8 rounded-lg shadow-2xl w-full max-w-md m-4 text-center">
-            <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" alt="Logo de Los Marmotas GrowShop" class="h-16 w-16 mx-auto mb-4 rounded-full">
+            <img src="https://res.cloudinary.com/dg6kgosio/image/upload/v1758058435/8879d05e-30ea-40bd-a1c2-b14771fe106c-fotor-20250916183328_bubhbn.png" class="h-16 w-16 mx-auto mb-4 rounded-full">
             <h2 id="adminModalTitle" class="text-2xl font-bold mb-4 text-emerald-300">Confirmación de Administrador</h2>
             <p id="adminModalMessage" class="text-gray-400 mb-6">Ingresa la contraseña para confirmar la acción.</p>
             <form id="adminForm" class="space-y-4">
@@ -403,7 +406,7 @@
         const adminModal = $('adminModal');
         const adminPasswordInput = $('adminPasswordInput');
         const adminForm = $('adminForm');
-        const adminPassword = 'losmarmotas123'; // La contraseña por defecto
+        const adminPassword = 'Messi2022'; // La contraseña por defecto
         
         // Función para mostrar el modal de contraseña y ejecutar una acción si es correcta
         function promptForPassword(callback, section) {
@@ -1163,4 +1166,3 @@
 
 </body>
 </html>
-
